@@ -17,8 +17,8 @@ public class DeepPanel {
     private static var nativeDeepPanel: DeepPaneliOSWrapper?
     private static let classCount = 3
     
-    public static func initialize(useMetal: Bool = true) {
-        interpreter = initializeModel(useMetal: useMetal)
+    public static func initialize(useCoreML: Bool = true) {
+        interpreter = initializeModel(useCoreML: useCoreML)
         nativeDeepPanel = DeepPaneliOSWrapper()
     }
     
@@ -67,7 +67,7 @@ public class DeepPanel {
             predictionResult: predictionResult)
     }
 
-    private static func initializeModel(useMetal: Bool = true) -> Interpreter? {
+    private static func initializeModel(useCoreML: Bool = true) -> Interpreter? {
         guard let modelPath = Bundle.main.path(
           forResource: "model",
           ofType: "tflite"
@@ -82,7 +82,7 @@ public class DeepPanel {
               options?.threadCount = 2
         #else
               // Use GPU on real device for inference as this model is fully supported.
-              delegates = useMetal ? [MetalDelegate()] : nil
+              delegates = useCoreML ? [CoreMLDelegate()!] : nil
         #endif
         do {
           let interpreter = try Interpreter(modelPath: modelPath, options: options, delegates: delegates)

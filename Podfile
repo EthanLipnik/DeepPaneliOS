@@ -4,7 +4,7 @@ platform :ios, '9.0'
 target 'DeepPanel' do
   use_frameworks!
 
-  pod 'TensorFlowLiteSwift'
+  pod 'TensorFlowLiteSwift', '~> 2.4.0', :subspecs => ['CoreML']
 
   target 'DeepPanelTests' do
     inherit! :search_paths
